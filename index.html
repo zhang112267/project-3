@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Science of Heartbreak | The Bright Side of Bad</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #030712; color: #f3f4f6; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .cyber-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 0 25px rgba(59, 130, 246, 0.05); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+
+    <!-- 填入你的 Google Apps Script Web App URL -->
+    <script>
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzQ37JFtOGKAoj4DTkpAU2Wl-ty8HcDKFfGmTSwbwALWCe6T5J4tLr8FUpVzkimsGYnIQ/exec';
+    </script>
+
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-gray-950/80 sticky top-0 z-50 backdrop-blur">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                <span class="font-orbitron font-bold tracking-wider text-blue-400 text-sm">THE BRIGHT SIDE OF BAD // LAB</span>
+            </div>
+            <div id="step-indicator" class="text-xs font-orbitron text-gray-400 tracking-widest">STEP 01 / 05</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto px-6 py-12 flex-grow flex items-center justify-center w-full">
+
+        <!-- STEP 1: 篩選與基本背景 -->
+        <div id="step-1" class="cyber-card rounded-2xl p-8 w-full transition-all duration-300">
+            <h1 class="text-2xl font-bold font-orbitron mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">
+                The Science of Heartbreak & Rejection
+            </h1>
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                探索心碎與社交排斥背後的神經認知反應，以及人類如何將負面情感轉化為心理韌性（The Bright Side of Bad）。
+            </p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">您的暱稱 / 實驗代號</label>
+                    <input type="text" id="user-nickname" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500" placeholder="例如：Researcher_01">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">你的年齡層</label>
+                    <select id="user-age" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
+                        <option value="12-14">12 - 14 歲（國中生）</option>
+                        <option value="15-18">15 - 18 歲（高中生）</option>
+                        <option value="19-25">19 - 25 歲（大學/青年）</option>
+                        <option value="26+">26 歲以上</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">你是否有過親密關係結束（失戀/分手）的經驗？</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="setBreakupStatus(true)" class="py-3 px-4 rounded-xl border border-blue-500/40 bg-blue-950/20 hover:bg-blue-600 hover:text-white transition font-medium text-sm text-center">
+                            有，曾經歷分手
+                        </button>
+                        <button onclick="setBreakupStatus(false)" class="py-3 px-4 rounded-xl border border-gray-700 bg-gray-900/40 hover:bg-gray-800 transition font-medium text-sm text-center text-gray-300">
+                            無，無此經驗 (純社交受挫組)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: 量表評估 -->
+        <div id="step-2" class="cyber-card rounded-2xl p-8 w-full hidden">
+            <h2 id="scale-title" class="text-xl font-bold font-orbitron mb-2 text-blue-400">心碎經驗與韌性動態評估</h2>
+            <p id="scale-desc" class="text-gray-400 text-sm mb-6">請憑直覺評估您在面對情感失落時的真實心態、痛苦程度與成長轉化能力（1 = 非常不同意，7 = 非常同意）。</p>
+            
+            <div class="space-y-6 max-h-96 overflow-y-auto pr-2">
+                <div>
+                    <label id="lbl-q1" class="block text-sm text-gray-300 mb-2 font-medium">1. 在失戀後，我經常感到情緒低落、一蹶不振，甚至影響到日常生活。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q1">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+                <div>
+                    <label id="lbl-q2" class="block text-sm text-gray-300 mb-2 font-medium">2. 我發現自己經常會忍不住想去查看對方的社群動態、限動或舊照片。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q2">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+                <div>
+                    <label id="lbl-q3" class="block text-sm text-gray-300 mb-2 font-medium">3. 我很容易把這段感情的結束歸咎於自己不好，陷入長期的自我懷疑。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q3">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+                <div>
+                    <label id="lbl-q4" class="block text-sm text-gray-300 mb-2 font-medium">4. 我傾向把悲傷與痛苦藏在心裡，表面上表現得好像完全不受影響。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q4">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+                <div>
+                    <label id="lbl-q5" class="block text-sm text-gray-300 mb-2 font-medium">5. 我會試著將失戀帶來的痛苦與反思，化為個人成長與心智成熟的動力。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q5">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+                <div>
+                    <label id="lbl-q6" class="block text-sm text-gray-300 mb-2 font-medium">6. 雖然過程痛苦，但我相信這次心碎讓我更清楚自己未來真正需要什麼。</label>
+                    <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q6">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                </div>
+            </div>
+            <button onclick="startStroopTask()" class="mt-8 w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm tracking-wide">
+                進入認知注意力測驗 (Stroop) ➔
+            </button>
+        </div>
+
+        <!-- STEP 3: 高衝擊隨機化情緒 Stroop 測驗 -->
+        <div id="step-3" class="cyber-card rounded-2xl p-8 w-full text-center hidden">
+            <h2 class="text-xl font-bold font-orbitron mb-1 text-blue-400">情緒 Stroop 注意力偏誤測試</h2>
+            <p class="text-gray-400 text-xs mb-2">請忽略文字意義，以**最快速度**選擇中央文字的**「字體顏色」**。</p>
+            <p class="text-gray-500 text-xs mb-4">電腦用戶可直接按鍵盤：<span class="text-red-400 font-bold font-orbitron">R (紅)</span> / <span class="text-emerald-400 font-bold font-orbitron">G (綠)</span> / <span class="text-blue-400 font-bold font-orbitron">B (藍)</span></p>
+            
+            <div class="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs px-3 py-1 rounded-full mb-6 font-orbitron animate-pulse">
+                ⚡ 高壓反應測試（題庫隨機混合中）
+            </div>
+            
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl h-44 flex flex-col items-center justify-center relative mb-6">
+                <div id="stroop-word" class="text-4xl font-extrabold font-orbitron tracking-wider mb-2">準備開始</div>
+                <div id="stroop-progress" class="text-xs text-gray-500 font-orbitron">Trial 0 / 8</div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <button onclick="handleStroopAnswer('red')" class="bg-red-950/40 border border-red-500/40 hover:bg-red-600 text-red-300 hover:text-white py-4 rounded-xl font-bold transition">紅色 (R)</button>
+                <button onclick="handleStroopAnswer('green')" class="bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-600 text-emerald-300 hover:text-white py-4 rounded-xl font-bold transition">綠色 (G)</button>
+                <button onclick="handleStroopAnswer('blue')" class="bg-blue-950/40 border border-blue-500/40 hover:bg-blue-600 text-blue-300 hover:text-white py-4 rounded-xl font-bold transition">藍色 (B)</button>
+            </div>
+            <button id="stroop-init-btn" onclick="runStroopTrials()" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2 rounded-xl transition text-sm">
+                點擊開始測驗
+            </button>
+        </div>
+
+        <!-- STEP 4: 分題號引導式反思 (Wizard) -->
+        <div id="step-4" class="cyber-card rounded-2xl p-8 w-full hidden">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad 深度反思與梳理</h2>
+                <span id="wizard-step-indicator" class="text-xs font-orbitron text-blue-300 bg-blue-950/60 px-3 py-1 rounded-full border border-blue-500/30">Q1 / Q4</span>
+            </div>
+            <p class="text-gray-400 text-xs mb-6">請依序回答以下問題（每題須至少輸入 <span class="text-amber-400 font-bold">15 個字</span> 才能進入下一題）：</p>
+            
+            <!-- 題目 1 -->
+            <div id="wiz-q1-box" class="space-y-4">
+                <div id="wiz-label-1" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
+                    <!-- 動態帶入 Q1 -->
+                </div>
+                <textarea id="ans-q1" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
+                <div id="warn-q1" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <button onclick="nextWizardStep(1)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
+                    下一題 ➔
+                </button>
+            </div>
+
+            <!-- 題目 2 -->
+            <div id="wiz-q2-box" class="space-y-4 hidden">
+                <div id="wiz-label-2" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
+                    <!-- 動態帶入 Q2 -->
+                </div>
+                <textarea id="ans-q2" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
+                <div id="warn-q2" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <button onclick="nextWizardStep(2)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
+                    下一題 ➔
+                </button>
+            </div>
+
+            <!-- 題目 3 -->
+            <div id="wiz-q3-box" class="space-y-4 hidden">
+                <div id="wiz-label-3" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
+                    <!-- 動態帶入 Q3 -->
+                </div>
+                <textarea id="ans-q3" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
+                <div id="warn-q3" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <button onclick="nextWizardStep(3)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
+                    下一步 ➔
+                </button>
+            </div>
+
+            <!-- 題目 4 (最後確認：心情有沒有比較舒坦) -->
+            <div id="wiz-q4-box" class="space-y-4 hidden">
+                <div class="text-sm font-bold text-indigo-200 bg-indigo-950/40 p-4 rounded-xl border border-indigo-500/30 leading-relaxed">
+                    ✨ 經過以上三個面向的梳理與反思，您覺得目前的心情或觀點有沒有比較舒坦、開闊或豁然開朗一些？
+                </div>
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
+                        <input type="radio" name="feelBetter" value="很有幫助，感覺輕鬆開闊許多" class="accent-blue-500" checked>
+                        <span class="text-sm text-gray-200">很有幫助，感覺輕鬆開闊許多</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
+                        <input type="radio" name="feelBetter" value="有點幫助，正在逐步調試中" class="accent-blue-500">
+                        <span class="text-sm text-gray-200">有點幫助，正在逐步調試中</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
+                        <input type="radio" name="feelBetter" value="感覺差不多，心情起伏不大" class="accent-blue-500">
+                        <span class="text-sm text-gray-200">感覺差不多，心情起伏不大</span>
+                    </label>
+                </div>
+                <button onclick="finishWizard()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm tracking-wide">
+                    完成反思並查看分析報告 ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 5: 實驗數據結果與分析報告 -->
+        <div id="step-5" class="cyber-card rounded-2xl p-8 w-full hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad 分析報告</h2>
+                    <p id="report-user-meta" class="text-xs text-gray-400">受試者：-</p>
+                </div>
+                <span id="badge-group" class="px-3 py-1 bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs rounded-full font-orbitron"></span>
+            </div>
+
+            <!-- 全體受試者常模比對卡片 -->
+            <div class="bg-indigo-950/40 border border-indigo-500/40 p-4 rounded-xl mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs text-indigo-300 font-orbitron font-bold">🌐 全體受試者常模即時比對</span>
+                    <span id="global-sync-status" class="text-xs text-indigo-400 animate-pulse">連線同步中...</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-center mt-2">
+                    <div class="bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                        <div class="text-xs text-gray-400 mb-1">全體平均反應時間</div>
+                        <div id="res-global-avg" class="text-xl font-extrabold font-orbitron text-indigo-300">-- ms</div>
+                    </div>
+                    <div class="bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                        <div class="text-xs text-gray-400 mb-1">您的反應速度排名</div>
+                        <div id="res-percentile" class="text-xl font-extrabold font-orbitron text-amber-400">Top --%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 韌性與轉化人格診斷卡片 -->
+            <div class="bg-blue-950/30 border border-blue-500/40 p-4 rounded-xl mb-6">
+                <div class="text-xs text-blue-400 font-orbitron mb-1">💡 心理學轉化動態診斷 (The Bright Side Profile)</div>
+                <div id="res-profile" class="text-sm font-bold text-gray-200 mb-1">-</div>
+                <div id="res-profile-desc" class="text-xs text-gray-400 leading-relaxed">-</div>
+            </div>
+
+            <!-- 反應時間表現 -->
+            <div class="bg-gray-900/60 border border-gray-800 p-4 rounded-xl text-center mb-6">
+                <div class="text-xs text-gray-400 mb-1">您的 Stroop 平均反應時間 (RT)</div>
+                <div id="res-stroop" class="text-2xl font-extrabold font-orbitron text-blue-400">0 ms</div>
+            </div>
+
+            <!-- Stroop 試驗明細紀錄表 -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold font-orbitron text-gray-300 mb-3">📊 毫秒級 Stroop 試驗逐筆紀錄</h3>
+                <div class="bg-gray-950 border border-gray-800 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-gray-900 text-gray-400 font-orbitron sticky top-0">
+                            <tr>
+                                <th class="p-3">#</th>
+                                <th class="p-3">刺激詞彙</th>
+                                <th class="p-3">類型</th>
+                                <th class="p-3">正確性</th>
+                                <th class="p-3 text-right">反應時間 (ms)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stroop-log-table" class="divide-y divide-gray-900 text-gray-300">
+                            <!-- 動態插入 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 mb-6">
+                <canvas id="resultChart" height="90"></canvas>
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium py-3 rounded-xl transition text-sm font-orbitron">
+                重新執行實驗
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-gray-600 font-orbitron border-t border-gray-900">
+        THE SCIENCE OF HEARTBREAK &copy; 2026
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        let userData = { 
+            sessionId: 'HB_' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+            timestamp: '',
+            nickname: 'Anonymous', 
+            hasBreakup: true, 
+            age: '12-14', 
+            scaleQ1: 4, scaleQ2: 4, scaleQ3: 4, scaleQ4: 4, scaleQ5: 4, scaleQ6: 4,
+            attachmentProfile: '',
+            ans1: '',
+            ans2: '',
+            ans3: '',
+            feelBetter: ''
+        };
+        
+        function setBreakupStatus(status) {
+            let nickInput = document.getElementById('user-nickname').value.trim();
+            if(nickInput !== '') userData.nickname = nickInput;
+
+            userData.hasBreakup = status;
+            userData.age = document.getElementById('user-age').value;
+            
+            if (status) {
+                document.getElementById('scale-title').innerText = "心碎經驗與韌性動態評估 (The Bright Side of Bad)";
+                document.getElementById('scale-desc').innerText = "請評估您在面對親密關係分手時的真實心態、痛苦程度與成長轉化能力。";
+                
+                document.getElementById('lbl-q1').innerText = "1. 在失戀後，我經常感到情緒低落、一蹶不振，甚至影響到日常生活。";
+                document.getElementById('lbl-q2').innerText = "2. 我發現自己經常會忍不住想去查看對方的社群動態、限動或舊照片。";
+                document.getElementById('lbl-q3').innerText = "3. 我很容易把這段感情的結束歸咎於自己不好，陷入長期的自我懷疑。";
+                document.getElementById('lbl-q4').innerText = "4. 我傾向把悲傷與痛苦藏在心裡，表面上表現得好像完全不受影響。";
+                document.getElementById('lbl-q5').innerText = "5. 我會試著將失戀帶來的痛苦與反思，化為個人成長與心智成熟的動力。";
+                document.getElementById('lbl-q6').innerText = "6. 雖然過程痛苦，但我相信這次心碎讓我更清楚自己未來真正需要什麼。";
+            } else {
+                document.getElementById('scale-title').innerText = "社交排斥與同儕挫折動態評估";
+                document.getElementById('scale-desc').innerText = "請評估您在面對班級/團體排擠、社交邊緣化或朋友疏離時的真實感受與調適方式。";
+                
+                document.getElementById('lbl-q1').innerText = "1. 當在團體中被孤立、忽視或排擠時，我會感到強烈的心理痛苦與挫折感。";
+                document.getElementById('lbl-q2').innerText = "2. 我發現自己事後會反覆回想那些不愉快的人際互動或別人冷漠的眼神。";
+                document.getElementById('lbl-q3').innerText = "3. 遭受同儕拒絕後，我很容易陷入自我懷疑，覺得自己是不是哪裡做錯了。";
+                document.getElementById('lbl-q4').innerText = "4. 為了避免再次受傷，我傾向在團體中保持沉默、減少主動社交。";
+                document.getElementById('lbl-q5').innerText = "5. 我會試著將這次的人際挫折化為看清交友狀況、提升社交智慧的成長契機。";
+                document.getElementById('lbl-q6').innerText = "6. 雖然經歷過社交排擠的低潮，但它確實讓我學會如何建立更健康的友誼邊界。";
+            }
+            
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            document.getElementById('step-indicator').innerText = "STEP 02 / 05";
+        }
+
+        function startStroopTask() {
+            userData.scaleQ1 = parseInt(document.getElementById('q1').value);
+            userData.scaleQ2 = parseInt(document.getElementById('q2').value);
+            userData.scaleQ3 = parseInt(document.getElementById('q3').value);
+            userData.scaleQ4 = parseInt(document.getElementById('q4').value);
+            userData.scaleQ5 = parseInt(document.getElementById('q5').value);
+            userData.scaleQ6 = parseInt(document.getElementById('q6').value);
+
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            document.getElementById('step-indicator').innerText = "STEP 03 / 05";
+            
+            prepareStroopSequence();
+        }
+
+        let currentTrial = 0;
+        const totalTrials = 8;
+        let trialSequence = [];
+        let trialsData = [];
+        let trialStartTime = 0;
+        let isStroopActive = false;
+        
+        const colors = ['red', 'green', 'blue'];
+        const colorHex = { red: '#ef4444', green: '#10b981', blue: '#3b82f6' };
+
+        function prepareStroopSequence() {
+            const neutralWords = ['桌子', '筆電', '時鐘', '窗戶', '抽屜', '檯燈'];
+            const breakupHighWords = ['封鎖', '已讀不回', '新歡', '背叛', '無情', '被甩'];
+            const socialHighWords = ['假面', '背後靈', '退群', '當空氣', '陷害', '邊緣'];
+            
+            let highImpactWords = userData.hasBreakup ? breakupHighWords : socialHighWords;
+
+            let pool = [];
+            for (let i = 0; i < 4; i++) {
+                pool.push({ word: neutralWords[Math.floor(Math.random() * neutralWords.length)], isEmotional: false });
+                pool.push({ word: highImpactWords[Math.floor(Math.random() * highImpactWords.length)], isEmotional: true });
+            }
+            trialSequence = pool.sort(() => Math.random() - 0.5);
+        }
+
+        function runStroopTrials() {
+            document.getElementById('stroop-init-btn').classList.add('hidden');
+            isStroopActive = true;
+            nextTrial();
+        }
+
+        function nextTrial() {
+            if (currentTrial >= totalTrials) {
+                isStroopActive = false;
+                document.getElementById('step-3').classList.add('hidden');
+                document.getElementById('step-4').classList.remove('hidden');
+                document.getElementById('step-indicator').innerText = "STEP 04 / 05";
+                setupWizardQuestions();
+                return;
+            }
+
+            let currentItem = trialSequence[currentTrial];
+            currentTrial++;
+            document.getElementById('stroop-progress').innerText = `Trial ${currentTrial} / ${totalTrials}`;
+            
+            let randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            let wordElem = document.getElementById('stroop-word');
+            wordElem.innerText = currentItem.word;
+            wordElem.style.color = colorHex[randomColor];
+
+            wordElem.dataset.currentColor = randomColor;
+            wordElem.dataset.isEmotional = currentItem.isEmotional;
+            wordElem.dataset.wordText = currentItem.word;
+
+            trialStartTime = performance.now();
+        }
+
+        function handleStroopAnswer(selectedColor) {
+            if (!isStroopActive) return;
+
+            let reactionTime = Math.round(performance.now() - trialStartTime);
+            let wordElem = document.getElementById('stroop-word');
+            let currentColor = wordElem.dataset.currentColor;
+            let isEmotional = (wordElem.dataset.isEmotional === 'true');
+            let wordText = wordElem.dataset.wordText;
+
+            let isCorrect = (selectedColor === currentColor);
+            
+            trialsData.push({
+                trial: currentTrial,
+                word: wordText,
+                type: isEmotional ? (userData.hasBreakup ? '失戀高感詞' : '社交受挫詞') : '中性對照詞',
+                correct: isCorrect,
+                rt: reactionTime
+            });
+
+            nextTrial();
+        }
+
+        window.addEventListener('keydown', function(e) {
+            if (!isStroopActive) return;
+            let key = e.key.toLowerCase();
+            if (key === 'r') handleStroopAnswer('red');
+            if (key === 'g') handleStroopAnswer('green');
+            if (key === 'b') handleStroopAnswer('blue');
+        });
+
+        // 設定分題號引導式反思的題目內容
+        function setupWizardQuestions() {
+            if (userData.hasBreakup) {
+                document.getElementById('wiz-label-1').innerText = "第一題：回想當時的分手，您從這段關係中學到了關於愛、信任或自我邊界的什麼重要課題？";
+                document.getElementById('wiz-label-2').innerText = "第二題：這次的心碎經驗，讓您在未來挑選對象或看待親密關係時，更清楚自己真正需要的是什麼？";
+                document.getElementById('wiz-label-3').innerText = "第三題：試著從長遠來看，您覺得這次的經歷如何實質提升或強韌了您的內在成熟度與未來眼光？";
+            } else {
+                document.getElementById('wiz-label-1').innerText = "第一題：回想當時的社交排擠或低潮，您從這次的人際挫折中看清了什麼樣的交友盲點或學到了什麼？";
+                document.getElementById('wiz-label-2').innerText = "第二題：這次的挫折經驗，讓您在未來如何建立更健康、更舒服的友誼邊界與社交距離？";
+                document.getElementById('wiz-label-3').innerText = "第三題：試著從長遠來看，您覺得這次的經歷如何實質提升或強韌了您的心理韌性與獨立性？";
+            }
+        }
+
+        // Wizard 分步驟控制與 15 字防呆驗證
+        function nextWizardStep(stepNum) {
+            let ans = document.getElementById(`ans-q${stepNum}`).value.trim();
+            let warn = document.getElementById(`warn-q${stepNum}`);
+
+            if (ans.length < 15) {
+                warn.classList.remove('hidden');
+                document.getElementById(`ans-q${stepNum}`).focus();
+                return;
+            }
+            warn.classList.add('hidden');
+
+            // 儲存答案
+            if (stepNum === 1) userData.ans1 = ans;
+            if (stepNum === 2) userData.ans2 = ans;
+            if (stepNum === 3) userData.ans3 = ans;
+
+            // 切換畫面
+            document.getElementById(`wiz-q${stepNum}-box`).classList.add('hidden');
+            let nextNum = stepNum + 1;
+            document.getElementById(`wiz-q${nextNum}-box`).classList.remove('hidden');
+            document.getElementById('wizard-step-indicator').innerText = `Q${nextNum} / Q4`;
+        }
+
+        function finishWizard() {
+            let selectedFeel = document.querySelector('input[name="feelBetter"]:checked');
+            userData.feelBetter = selectedFeel ? selectedFeel.value : "很有幫助，感覺輕鬆開闊許多";
+            userData.timestamp = new Date().toISOString();
+
+            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('step-5').classList.remove('hidden');
+            document.getElementById('step-indicator').innerText = "STEP 05 / 05";
+            
+            document.getElementById('report-user-meta').innerText = `受試者：${userData.nickname} (${userData.age}歲)`;
+            document.getElementById('badge-group').innerText = `${userData.hasBreakup ? '失戀實驗組' : '社交排斥組'} / 深度反思梳理`;
+            
+            evaluateBrightSideProfile();
+
+            let avgRt = Math.round(trialsData.reduce((acc, cur) => acc + cur.rt, 0) / trialsData.length);
+            document.getElementById('res-stroop').innerText = `${avgRt} ms`;
+
+            let logTableBody = document.getElementById('stroop-log-table');
+            logTableBody.innerHTML = '';
+            trialsData.forEach(row => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-orbitron">#0${row.trial}</td>
+                    <td class="p-3 font-bold">${row.word}</td>
+                    <td class="p-3 text-gray-400">${row.type}</td>
+                    <td class="p-3">${row.correct ? '<span class="text-emerald-400">正確</span>' : '<span class="text-red-400">錯誤</span>'}</td>
+                    <td class="p-3 text-right font-orbitron text-blue-400">${row.rt} ms</td>
+                `;
+                logTableBody.appendChild(tr);
+            });
+
+            const ctx = document.getElementById('resultChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['平均反應時間 (RT)', '反思有效性指標'],
+                    datasets: [{
+                        label: '數據指標',
+                        data: [avgRt, 85],
+                        backgroundColor: ['#3b82f6', '#10b981'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } },
+                        x: { grid: { display: false }, ticks: { color: '#9ca3af' } }
+                    }
+                }
+            });
+
+            sendDataToGoogleSheets(avgRt);
+        }
+
+        function evaluateBrightSideProfile() {
+            let painScore = (userData.scaleQ1 + userData.scaleQ2 + userData.scaleQ3 + userData.scaleQ4) / 4;
+            let growthScore = (userData.scaleQ5 + userData.scaleQ6) / 2;
+
+            let profileName = "";
+            let profileDesc = "";
+
+            if (userData.hasBreakup) {
+                if (growthScore >= 5.0) {
+                    if (painScore >= 4.0) {
+                        profileName = "創傷後成長 (Post-Traumatic Growth, PTG)";
+                        profileDesc = "完美體現 The Bright Side of Bad！重大情感打擊往往伴隨深刻痛苦，但你具備極高的心智韌性，不僅能挺過低谷，更能透過分步驟反思將經歷轉化為自我超越的強大養分。";
+                    } else {
+                        profileName = "益處發現型 (Benefit Finding)";
+                        profileDesc = "你展現了高度的情緒調節能力與正向心態，能迅速跳脫負面漩渦，精準捕捉失落事件中的人生啟發與智慧。";
+                    }
+                } else if (growthScore >= 3.5) {
+                    profileName = "韌性調節型 (Resilient Reappraiser)";
+                    profileDesc = "你正在穩健地調試心情，試圖在痛苦與自我成長之間尋找平衡點，透過結構化梳理逐步重建內在秩序。";
+                } else {
+                    profileName = "心碎陷溺型 (Cognitive Entrapment)";
+                    profileDesc = "大腦的認知頻寬目前被強烈的失落感高度佔用。這在情感失落期非常正常，透過剛才的分題反思，正引導大腦逐步找回前進的曙光。";
+                }
+            } else {
+                if (growthScore >= 5.0) {
+                    profileName = "社交智慧昇華 (Social Cognitive Elevation)";
+                    profileDesc = "面對同儕排擠或人際低潮時，你展現了出色的心理韌性，能將社交挫折化為優化人際邊界與提升社交智慧的寶貴契機。";
+                } else if (growthScore >= 3.5) {
+                    profileName = "人際適應調和型 (Interpersonal Adaptive)";
+                    profileDesc = "你對團體波動保持平衡心態，正逐步建立健康舒適的人際互動與心理調適機制。";
+                } else {
+                    profileName = "高敏感社交受挫型 (High-Sensitivity Rejection Response)";
+                    profileDesc = "你對人際互動高度敏感，遭遇團體冷落或疏離時容易反覆咀嚼，但透過分題反思已有效啟動內在心理調節。";
+                }
+            }
+
+            userData.attachmentProfile = profileName;
+            document.getElementById('res-profile').innerText = profileName;
+            document.getElementById('res-profile-desc').innerText = profileDesc;
+        }
+
+        function sendDataToGoogleSheets(avgRt) {
+            if (GAS_API_URL.includes('YOUR_GAS_WEB_APP_URL_HERE')) return;
+
+            let payload = {
+                summary: {
+                    timestamp: userData.timestamp,
+                    sessionId: userData.sessionId,
+                    nickname: userData.nickname,
+                    ageGroup: userData.age,
+                    expType: userData.hasBreakup ? '失戀實驗組' : '社交排斥組',
+                    scaleQ1: userData.scaleQ1,
+                    scaleQ2: userData.scaleQ2,
+                    scaleQ3: userData.scaleQ3,
+                    scaleQ4: userData.scaleQ4,
+                    scaleQ5: userData.scaleQ5,
+                    scaleQ6: userData.scaleQ6,
+                    attachmentProfile: userData.attachmentProfile,
+                    stroopAvgRt: avgRt,
+                    ans1: userData.ans1,
+                    ans2: userData.ans2,
+                    ans3: userData.ans3,
+                    feelBetter: userData.feelBetter
+                },
+                trials: trialsData
+            };
+
+            fetch(GAS_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 'success') {
+                    document.getElementById('global-sync-status').innerText = `已同步 (樣本數: ${data.totalParticipants})`;
+                    document.getElementById('global-sync-status').classList.remove('animate-pulse', 'text-indigo-400');
+                    document.getElementById('global-sync-status').classList.add('text-emerald-400');
+                    
+                    document.getElementById('res-global-avg').innerText = `${data.globalAvgRt} ms`;
+                    document.getElementById('res-percentile').innerText = `Top ${data.percentileTop}%`;
+                }
+            })
+            .catch(err => {
+                console.error("Sync error:", err);
+                document.getElementById('global-sync-status').innerText = '本地預估數據';
+            });
+        }
+    </script>
+</body>
+</html>
