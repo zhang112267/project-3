@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +9,16 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #030712; color: #f3f4f6; }
+        body { font-family: 'Inter', sans-serif; background-color: #030712; color: #f3f4f6; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .cyber-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 0 25px rgba(59, 130, 246, 0.05); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
 
-    <!-- 填入你的 Google Apps Script Web App URL -->
+    <!-- Insert your Google Apps Script Web App URL here -->
     <script>
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzQ37JFtOGKAoj4DTkpAU2Wl-ty8HcDKFfGmTSwbwALWCe6T5J4tLr8FUpVzkimsGYnIQ/exec';
     </script>
@@ -28,7 +28,7 @@
         <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                <span class="font-orbitron font-bold tracking-wider text-blue-400 text-sm">THE BRIGHT SIDE OF BAD // LAB</span>
+                <span class="font-orbitron font-bold tracking-wider text-blue-400 text-sm">THE BRIGHT SIDE OF BAD </span>
             </div>
             <div id="step-indicator" class="text-xs font-orbitron text-gray-400 tracking-widest">STEP 01 / 05</div>
         </div>
@@ -37,235 +37,249 @@
     <!-- Main Container -->
     <main class="max-w-2xl mx-auto px-6 py-12 flex-grow flex items-center justify-center w-full">
 
-        <!-- STEP 1: 篩選與基本背景 -->
+        <!-- STEP 1: Background & Group Selection -->
         <div id="step-1" class="cyber-card rounded-2xl p-8 w-full transition-all duration-300">
             <h1 class="text-2xl font-bold font-orbitron mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">
                 The Science of Heartbreak & Rejection
             </h1>
             <p class="text-gray-400 text-sm mb-6 leading-relaxed">
-                探索心碎與社交排斥背後的神經認知反應，以及人類如何將負面情感轉化為心理韌性（The Bright Side of Bad）。
+                Investigating neurocognitive responses to heartbreak and social exclusion, and how humans transform negative affect into psychological resilience.
             </p>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">您的暱稱 / 實驗代號</label>
-                    <input type="text" id="user-nickname" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500" placeholder="例如：Researcher_01">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Your Nickname </label>
+                    <input type="text" id="user-nickname" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. 小明(your preferred nickname)">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">你的年齡層</label>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Age Group</label>
                     <select id="user-age" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
-                        <option value="12-14">12 - 14 歲（國中生）</option>
-                        <option value="15-18">15 - 18 歲（高中生）</option>
-                        <option value="19-25">19 - 25 歲（大學/青年）</option>
-                        <option value="26+">26 歲以上</option>
+                        <option value="12-14">12 - 14 years old (Middle School)</option>
+                        <option value="15-18">15 - 18 years old (High School)</option>
+                        <option value="19-25">19 - 25 years old (University/Youth)</option>
+                        <option value="26+">26+ years old</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">你是否有過親密關係結束（失戀/分手）的經驗？</label>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Have you experienced the end of a romantic relationship (breakup)?</label>
                     <div class="grid grid-cols-2 gap-4">
                         <button onclick="setBreakupStatus(true)" class="py-3 px-4 rounded-xl border border-blue-500/40 bg-blue-950/20 hover:bg-blue-600 hover:text-white transition font-medium text-sm text-center">
-                            有，曾經歷分手
+                            Yes, experienced a breakup
                         </button>
                         <button onclick="setBreakupStatus(false)" class="py-3 px-4 rounded-xl border border-gray-700 bg-gray-900/40 hover:bg-gray-800 transition font-medium text-sm text-center text-gray-300">
-                            無，無此經驗 (純社交受挫組)
+                            No (Social Rejection focus)
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- STEP 2: 量表評估 -->
+        <!-- STEP 2: Psychological Scale -->
         <div id="step-2" class="cyber-card rounded-2xl p-8 w-full hidden">
-            <h2 id="scale-title" class="text-xl font-bold font-orbitron mb-2 text-blue-400">心碎經驗與韌性動態評估</h2>
-            <p id="scale-desc" class="text-gray-400 text-sm mb-6">請憑直覺評估您在面對情感失落時的真實心態、痛苦程度與成長轉化能力（1 = 非常不同意，7 = 非常同意）。</p>
+            <h2 id="scale-title" class="text-xl font-bold font-orbitron mb-2 text-blue-400">Heartbreak Experience & Resilience Evaluation</h2>
+            <p id="scale-desc" class="text-gray-400 text-sm mb-6">Please evaluate your mindset, distress level, and growth capacity when facing romantic loss (1 = Strongly Disagree, 7 = Strongly Agree).</p>
             
             <div class="space-y-6 max-h-96 overflow-y-auto pr-2">
                 <div>
-                    <label id="lbl-q1" class="block text-sm text-gray-300 mb-2 font-medium">1. 在失戀後，我經常感到情緒低落、一蹶不振，甚至影響到日常生活。</label>
+                    <label id="lbl-q1" class="block text-sm text-gray-300 mb-2 font-medium">1. After a breakup, I often felt emotionally down, unmotivated, and affected in daily life.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q1">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
                 <div>
-                    <label id="lbl-q2" class="block text-sm text-gray-300 mb-2 font-medium">2. 我發現自己經常會忍不住想去查看對方的社群動態、限動或舊照片。</label>
+                    <label id="lbl-q2" class="block text-sm text-gray-300 mb-2 font-medium">2. I found myself frequently tempted to check my ex-partner's social media updates or old photos.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q2">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
                 <div>
-                    <label id="lbl-q3" class="block text-sm text-gray-300 mb-2 font-medium">3. 我很容易把這段感情的結束歸咎於自己不好，陷入長期的自我懷疑。</label>
+                    <label id="lbl-q3" class="block text-sm text-gray-300 mb-2 font-medium">3. I easily tended to blame myself for the breakup and fell into prolonged self-doubt.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q3">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
                 <div>
-                    <label id="lbl-q4" class="block text-sm text-gray-300 mb-2 font-medium">4. 我傾向把悲傷與痛苦藏在心裡，表面上表現得好像完全不受影響。</label>
+                    <label id="lbl-q4" class="block text-sm text-gray-300 mb-2 font-medium">4. I tended to hide sadness and pain inside, acting as if I was completely unaffected.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q4">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
                 <div>
-                    <label id="lbl-q5" class="block text-sm text-gray-300 mb-2 font-medium">5. 我會試著將失戀帶來的痛苦與反思，化為個人成長與心智成熟的動力。</label>
+                    <label id="lbl-q5" class="block text-sm text-gray-300 mb-2 font-medium">5. I try to channel the pain and reflections from the heartbreak into personal growth and maturity.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q5">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
                 <div>
-                    <label id="lbl-q6" class="block text-sm text-gray-300 mb-2 font-medium">6. 雖然過程痛苦，但我相信這次心碎讓我更清楚自己未來真正需要什麼。</label>
+                    <label id="lbl-q6" class="block text-sm text-gray-300 mb-2 font-medium">6. Despite the pain, I believe this heartbreak made me clearer about what I truly need in the future.</label>
                     <input type="range" min="1" max="7" value="4" class="w-full accent-blue-500" id="q6">
-                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (極不同意)</span><span>7 (極同意)</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1 (Strongly Disagree)</span><span>7 (Strongly Agree)</span></div>
                 </div>
             </div>
             <button onclick="startStroopTask()" class="mt-8 w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm tracking-wide">
-                進入認知注意力測驗 (Stroop) ➔
+                Proceed to Stroop Task ➔
             </button>
         </div>
 
-        <!-- STEP 3: 高衝擊隨機化情緒 Stroop 測驗 -->
+        <!-- STEP 3: Emotional Stroop Task -->
         <div id="step-3" class="cyber-card rounded-2xl p-8 w-full text-center hidden">
-            <h2 class="text-xl font-bold font-orbitron mb-1 text-blue-400">情緒 Stroop 注意力偏誤測試</h2>
-            <p class="text-gray-400 text-xs mb-2">請忽略文字意義，以**最快速度**選擇中央文字的**「字體顏色」**。</p>
-            <p class="text-gray-500 text-xs mb-4">電腦用戶可直接按鍵盤：<span class="text-red-400 font-bold font-orbitron">R (紅)</span> / <span class="text-emerald-400 font-bold font-orbitron">G (綠)</span> / <span class="text-blue-400 font-bold font-orbitron">B (藍)</span></p>
+            <h2 class="text-xl font-bold font-orbitron mb-1 text-blue-400">Emotional Stroop Attention Bias Test</h2>
+            <p class="text-gray-400 text-xs mb-2">Ignore word meaning. Select the **font color** of the central word as fast as possible.</p>
+            <p class="text-gray-500 text-xs mb-4">Keyboard shortcuts: <span class="text-red-400 font-bold font-orbitron">R (Red)</span> / <span class="text-emerald-400 font-bold font-orbitron">G (Green)</span> / <span class="text-blue-400 font-bold font-orbitron">B (Blue)</span></p>
             
             <div class="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs px-3 py-1 rounded-full mb-6 font-orbitron animate-pulse">
-                ⚡ 高壓反應測試（題庫隨機混合中）
+                ⚡ High-Impact Stress Test (Randomized Trials)
             </div>
             
             <div class="bg-gray-950 border border-gray-800 rounded-2xl h-44 flex flex-col items-center justify-center relative mb-6">
-                <div id="stroop-word" class="text-4xl font-extrabold font-orbitron tracking-wider mb-2">準備開始</div>
+                <div id="stroop-word" class="text-4xl font-extrabold font-orbitron tracking-wider mb-2">READY</div>
                 <div id="stroop-progress" class="text-xs text-gray-500 font-orbitron">Trial 0 / 8</div>
             </div>
 
             <div class="grid grid-cols-3 gap-4">
-                <button onclick="handleStroopAnswer('red')" class="bg-red-950/40 border border-red-500/40 hover:bg-red-600 text-red-300 hover:text-white py-4 rounded-xl font-bold transition">紅色 (R)</button>
-                <button onclick="handleStroopAnswer('green')" class="bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-600 text-emerald-300 hover:text-white py-4 rounded-xl font-bold transition">綠色 (G)</button>
-                <button onclick="handleStroopAnswer('blue')" class="bg-blue-950/40 border border-blue-500/40 hover:bg-blue-600 text-blue-300 hover:text-white py-4 rounded-xl font-bold transition">藍色 (B)</button>
+                <button onclick="handleStroopAnswer('red')" class="bg-red-950/40 border border-red-500/40 hover:bg-red-600 text-red-300 hover:text-white py-4 rounded-xl font-bold transition">RED (R)</button>
+                <button onclick="handleStroopAnswer('green')" class="bg-emerald-950/40 border border-emerald-500/40 hover:bg-emerald-600 text-emerald-300 hover:text-white py-4 rounded-xl font-bold transition">GREEN (G)</button>
+                <button onclick="handleStroopAnswer('blue')" class="bg-blue-950/40 border border-blue-500/40 hover:bg-blue-600 text-blue-300 hover:text-white py-4 rounded-xl font-bold transition">BLUE (B)</button>
             </div>
             <button id="stroop-init-btn" onclick="runStroopTrials()" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2 rounded-xl transition text-sm">
-                點擊開始測驗
+                Start Test
             </button>
         </div>
 
-        <!-- STEP 4: 分題號引導式反思 (Wizard) -->
+        <!-- STEP 4: Scaffolded Reflection Wizard -->
         <div id="step-4" class="cyber-card rounded-2xl p-8 w-full hidden">
             <div class="flex justify-between items-center mb-2">
-                <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad 深度反思與梳理</h2>
+                <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad: Reflection Wizard</h2>
                 <span id="wizard-step-indicator" class="text-xs font-orbitron text-blue-300 bg-blue-950/60 px-3 py-1 rounded-full border border-blue-500/30">Q1 / Q4</span>
             </div>
-            <p class="text-gray-400 text-xs mb-6">請依序回答以下問題（每題須至少輸入 <span class="text-amber-400 font-bold">15 個字</span> 才能進入下一題）：</p>
+            <p class="text-gray-400 text-xs mb-6">
+                Please answer the following prompts sequentially (at least <span class="text-amber-400 font-bold">15 characters</span> per response required).<br>
+                <span class="text-blue-300 italic">💡 You may write your reflection in Chinese / 您可以使用中文回答：</span>
+            </p>
             
-            <!-- 題目 1 -->
+            <!-- Question 1 -->
             <div id="wiz-q1-box" class="space-y-4">
                 <div id="wiz-label-1" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
-                    <!-- 動態帶入 Q1 -->
+                    <!-- Dynamic Q1 -->
                 </div>
-                <textarea id="ans-q1" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
-                <div id="warn-q1" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <textarea id="ans-q1" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="Type your reflection here / 請在此輸入您的反思（至少 15 字）..."></textarea>
+                <div id="warn-q1" class="text-xs text-red-400 hidden">⚠️ Please write at least 15 characters (請至少輸入 15 個字) !</div>
                 <button onclick="nextWizardStep(1)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
-                    下一題 ➔
+                    Next Question ➔
                 </button>
             </div>
 
-            <!-- 題目 2 -->
+            <!-- Question 2 -->
             <div id="wiz-q2-box" class="space-y-4 hidden">
                 <div id="wiz-label-2" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
-                    <!-- 動態帶入 Q2 -->
+                    <!-- Dynamic Q2 -->
                 </div>
-                <textarea id="ans-q2" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
-                <div id="warn-q2" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <textarea id="ans-q2" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="Type your reflection here / 請在此輸入您的反思（至少 15 字）..."></textarea>
+                <div id="warn-q2" class="text-xs text-red-400 hidden">⚠️ Please write at least 15 characters (請至少輸入 15 個字) !</div>
                 <button onclick="nextWizardStep(2)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
-                    下一題 ➔
+                    Next Question ➔
                 </button>
             </div>
 
-            <!-- 題目 3 -->
+            <!-- Question 3 -->
             <div id="wiz-q3-box" class="space-y-4 hidden">
                 <div id="wiz-label-3" class="text-sm font-bold text-blue-200 bg-blue-950/30 p-4 rounded-xl border border-blue-500/20 leading-relaxed">
-                    <!-- 動態帶入 Q3 -->
+                    <!-- Dynamic Q3 -->
                 </div>
-                <textarea id="ans-q3" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="請在此輸入您的深度反思（至少 15 字）..."></textarea>
-                <div id="warn-q3" class="text-xs text-red-400 hidden">⚠️ 字數不足 15 個字，請再多寫一些您的想法喔！</div>
+                <textarea id="ans-q3" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm focus:outline-none focus:border-blue-500" placeholder="Type your reflection here / 請在此輸入您的反思（至少 15 字）..."></textarea>
+                <div id="warn-q3" class="text-xs text-red-400 hidden">⚠️ Please write at least 15 characters (請至少輸入 15 個字) !</div>
                 <button onclick="nextWizardStep(3)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm">
-                    下一步 ➔
+                    Next Step ➔
                 </button>
             </div>
 
-            <!-- 題目 4 (最後確認：心情有沒有比較舒坦) -->
+            <!-- Question 4 (Emotional Relief Check) -->
             <div id="wiz-q4-box" class="space-y-4 hidden">
                 <div class="text-sm font-bold text-indigo-200 bg-indigo-950/40 p-4 rounded-xl border border-indigo-500/30 leading-relaxed">
-                    ✨ 經過以上三個面向的梳理與反思，您覺得目前的心情或觀點有沒有比較舒坦、開闊或豁然開朗一些？
+                    ✨ After structuring and reflecting through these three dimensions, do you feel your mood or perspective has become more relieved, open, or enlightened?<br>
+                    <span class="text-xs text-indigo-300 font-normal">（經過以上反思，您覺得心情有沒有比較開闊或舒坦？）</span>
                 </div>
                 <div class="space-y-3">
                     <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
-                        <input type="radio" name="feelBetter" value="很有幫助，感覺輕鬆開闊許多" class="accent-blue-500" checked>
-                        <span class="text-sm text-gray-200">很有幫助，感覺輕鬆開闊許多</span>
+                        <input type="radio" name="feelBetter" value="Very helpful, feel much lighter and open" class="accent-blue-500" checked>
+                        <span class="text-sm text-gray-200">Very helpful, feel much lighter and open (很有幫助，輕鬆開闊許多)</span>
                     </label>
                     <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
-                        <input type="radio" name="feelBetter" value="有點幫助，正在逐步調試中" class="accent-blue-500">
-                        <span class="text-sm text-gray-200">有點幫助，正在逐步調試中</span>
+                        <input type="radio" name="feelBetter" value="Somewhat helpful, gradually adjusting" class="accent-blue-500">
+                        <span class="text-sm text-gray-200">Somewhat helpful, gradually adjusting (有點幫助，逐步調試中)</span>
                     </label>
                     <label class="flex items-center space-x-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 hover:border-blue-500 cursor-pointer transition">
-                        <input type="radio" name="feelBetter" value="感覺差不多，心情起伏不大" class="accent-blue-500">
-                        <span class="text-sm text-gray-200">感覺差不多，心情起伏不大</span>
+                        <input type="radio" name="feelBetter" value="Feel about the same, minimal emotional shift" class="accent-blue-500">
+                        <span class="text-sm text-gray-200">Feel about the same, minimal emotional shift (感覺差不多，起伏不大)</span>
                     </label>
                 </div>
                 <button onclick="finishWizard()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-3 rounded-xl transition font-orbitron text-sm tracking-wide">
-                    完成反思並查看分析報告 ➔
+                    Complete Reflection & View Analysis Report ➔
                 </button>
             </div>
         </div>
 
-        <!-- STEP 5: 實驗數據結果與分析報告 -->
+        <!-- STEP 5: Analysis Report & Gift Announcement -->
         <div id="step-5" class="cyber-card rounded-2xl p-8 w-full hidden">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad 分析報告</h2>
-                    <p id="report-user-meta" class="text-xs text-gray-400">受試者：-</p>
+                    <h2 class="text-xl font-bold font-orbitron text-blue-400">The Bright Side of Bad: Analysis Report</h2>
+                    <p id="report-user-meta" class="text-xs text-gray-400">Participant: -</p>
                 </div>
                 <span id="badge-group" class="px-3 py-1 bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs rounded-full font-orbitron"></span>
             </div>
 
-            <!-- 全體受試者常模比對卡片 -->
+            <!-- Global Norm Comparison Card -->
             <div class="bg-indigo-950/40 border border-indigo-500/40 p-4 rounded-xl mb-6">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs text-indigo-300 font-orbitron font-bold">🌐 全體受試者常模即時比對</span>
-                    <span id="global-sync-status" class="text-xs text-indigo-400 animate-pulse">連線同步中...</span>
+                    <span class="text-xs text-indigo-300 font-orbitron font-bold">🌐 Global Norm Live Comparison</span>
+                    <span id="global-sync-status" class="text-xs text-indigo-400 animate-pulse">Syncing...</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-center mt-2">
                     <div class="bg-gray-900/60 p-3 rounded-lg border border-gray-800">
-                        <div class="text-xs text-gray-400 mb-1">全體平均反應時間</div>
+                        <div class="text-xs text-gray-400 mb-1">Global Average RT</div>
                         <div id="res-global-avg" class="text-xl font-extrabold font-orbitron text-indigo-300">-- ms</div>
                     </div>
                     <div class="bg-gray-900/60 p-3 rounded-lg border border-gray-800">
-                        <div class="text-xs text-gray-400 mb-1">您的反應速度排名</div>
+                        <div class="text-xs text-gray-400 mb-1">Your Speed Percentile</div>
                         <div id="res-percentile" class="text-xl font-extrabold font-orbitron text-amber-400">Top --%</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 韌性與轉化人格診斷卡片 -->
+            <!-- Resilience & Transformation Profile -->
             <div class="bg-blue-950/30 border border-blue-500/40 p-4 rounded-xl mb-6">
-                <div class="text-xs text-blue-400 font-orbitron mb-1">💡 心理學轉化動態診斷 (The Bright Side Profile)</div>
+                <div class="text-xs text-blue-400 font-orbitron mb-1">💡 Psychological Transformation Profile</div>
                 <div id="res-profile" class="text-sm font-bold text-gray-200 mb-1">-</div>
                 <div id="res-profile-desc" class="text-xs text-gray-400 leading-relaxed">-</div>
             </div>
 
-            <!-- 反應時間表現 -->
-            <div class="bg-gray-900/60 border border-gray-800 p-4 rounded-xl text-center mb-6">
-                <div class="text-xs text-gray-400 mb-1">您的 Stroop 平均反應時間 (RT)</div>
-                <div id="res-stroop" class="text-2xl font-extrabold font-orbitron text-blue-400">0 ms</div>
+            <!-- Stroop Core Comparison: Neutral vs Emotional -->
+            <div class="grid grid-cols-3 gap-3 mb-6 text-center">
+                <div class="bg-gray-900/60 border border-gray-800 p-3 rounded-xl">
+                    <div class="text-xs text-gray-400 mb-1">Neutral Words RT</div>
+                    <div id="res-neutral-rt" class="text-lg font-extrabold font-orbitron text-blue-400">0 ms</div>
+                </div>
+                <div class="bg-gray-900/60 border border-gray-800 p-3 rounded-xl">
+                    <div class="text-xs text-gray-400 mb-1">Emotional Words RT</div>
+                    <div id="res-emotional-rt" class="text-lg font-extrabold font-orbitron text-amber-400">0 ms</div>
+                </div>
+                <div class="bg-gray-900/60 border border-gray-800 p-3 rounded-xl">
+                    <div class="text-xs text-gray-400 mb-1">Interference Diff</div>
+                    <div id="res-diff-rt" class="text-lg font-extrabold font-orbitron text-emerald-400">+0 ms</div>
+                </div>
             </div>
 
-            <!-- Stroop 試驗明細紀錄表 -->
+            <!-- Trial Log Table -->
             <div class="mb-6">
-                <h3 class="text-sm font-bold font-orbitron text-gray-300 mb-3">📊 毫秒級 Stroop 試驗逐筆紀錄</h3>
+                <h3 class="text-sm font-bold font-orbitron text-gray-300 mb-3">📊 Millisecond Stroop Trial Log</h3>
                 <div class="bg-gray-950 border border-gray-800 rounded-xl overflow-hidden max-h-48 overflow-y-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-gray-900 text-gray-400 font-orbitron sticky top-0">
                             <tr>
                                 <th class="p-3">#</th>
-                                <th class="p-3">刺激詞彙</th>
-                                <th class="p-3">類型</th>
-                                <th class="p-3">正確性</th>
-                                <th class="p-3 text-right">反應時間 (ms)</th>
+                                <th class="p-3">Stimulus Word</th>
+                                <th class="p-3">Type</th>
+                                <th class="p-3">Accuracy</th>
+                                <th class="p-3 text-right">Reaction Time (ms)</th>
                             </tr>
                         </thead>
                         <tbody id="stroop-log-table" class="divide-y divide-gray-900 text-gray-300">
-                            <!-- 動態插入 -->
+                            <!-- Dynamic Rows -->
                         </tbody>
                     </table>
                 </div>
@@ -275,9 +289,32 @@
                 <canvas id="resultChart" height="90"></canvas>
             </div>
 
-            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium py-3 rounded-xl transition text-sm font-orbitron">
-                重新執行實驗
-            </button>
+            <!-- Special Research Announcement: Gift & Team Group Photo Section -->
+            <div class="bg-gradient-to-r from-blue-950/60 to-purple-950/60 border border-blue-500/40 p-6 rounded-2xl text-center space-y-4">
+                <div class="inline-block bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full font-orbitron border border-blue-500/30">
+                    🎁 SPECIAL RESEARCH ANNOUNCEMENT
+                </div>
+                <h3 class="text-base font-bold text-white">Thank You for Participating!</h3>
+                <p class="text-xs text-gray-300 leading-relaxed max-w-md mx-auto">
+                    We will carefully review all qualitative reflections submitted in this study and select <strong>10 high-quality participants</strong> to receive a delicate small gift as our token of appreciation!
+                </p>
+
+                <!-- Team Group Photo Placeholder -->
+                <div class="mt-4 pt-4 border-t border-gray-800">
+                    <div class="text-xs font-orbitron text-gray-400 mb-3">📸 RESEARCH TEAM & PROJECT MEMBERS</div>
+                    <div class="bg-gray-900/80 border border-dashed border-gray-700 rounded-xl p-4 flex flex-col items-center justify-center h-48 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('YOUR_TEAM_PHOTO_URL_HERE');"></div>
+                        <div class="z-10 text-center">
+                            <svg class="w-10 h-10 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-xs text-gray-400 font-medium">Team Group Photo Placeholder</span>
+                            <span class="text-[10px] text-gray-500 block mt-1">(Insert your group photo here)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </main>
@@ -311,25 +348,25 @@
             userData.age = document.getElementById('user-age').value;
             
             if (status) {
-                document.getElementById('scale-title').innerText = "心碎經驗與韌性動態評估 (The Bright Side of Bad)";
-                document.getElementById('scale-desc').innerText = "請評估您在面對親密關係分手時的真實心態、痛苦程度與成長轉化能力。";
+                document.getElementById('scale-title').innerText = "Heartbreak Experience & Resilience Evaluation";
+                document.getElementById('scale-desc').innerText = "Please evaluate your mindset, distress level, and growth capacity when facing romantic loss.";
                 
-                document.getElementById('lbl-q1').innerText = "1. 在失戀後，我經常感到情緒低落、一蹶不振，甚至影響到日常生活。";
-                document.getElementById('lbl-q2').innerText = "2. 我發現自己經常會忍不住想去查看對方的社群動態、限動或舊照片。";
-                document.getElementById('lbl-q3').innerText = "3. 我很容易把這段感情的結束歸咎於自己不好，陷入長期的自我懷疑。";
-                document.getElementById('lbl-q4').innerText = "4. 我傾向把悲傷與痛苦藏在心裡，表面上表現得好像完全不受影響。";
-                document.getElementById('lbl-q5').innerText = "5. 我會試著將失戀帶來的痛苦與反思，化為個人成長與心智成熟的動力。";
-                document.getElementById('lbl-q6').innerText = "6. 雖然過程痛苦，但我相信這次心碎讓我更清楚自己未來真正需要什麼。";
+                document.getElementById('lbl-q1').innerText = "1. After a breakup, I often felt emotionally down, unmotivated, and affected in daily life.";
+                document.getElementById('lbl-q2').innerText = "2. I found myself frequently tempted to check my ex-partner's social media updates or old photos.";
+                document.getElementById('lbl-q3').innerText = "3. I easily tended to blame myself for the breakup and fell into prolonged self-doubt.";
+                document.getElementById('lbl-q4').innerText = "4. I tended to hide sadness and pain inside, acting as if I was completely unaffected.";
+                document.getElementById('lbl-q5').innerText = "5. I try to channel the pain and reflections from the heartbreak into personal growth and maturity.";
+                document.getElementById('lbl-q6').innerText = "6. Despite the pain, I believe this heartbreak made me clearer about what I truly need in the future.";
             } else {
-                document.getElementById('scale-title').innerText = "社交排斥與同儕挫折動態評估";
-                document.getElementById('scale-desc').innerText = "請評估您在面對班級/團體排擠、社交邊緣化或朋友疏離時的真實感受與調適方式。";
+                document.getElementById('scale-title').innerText = "Social Rejection & Peer Frustration Evaluation";
+                document.getElementById('scale-desc').innerText = "Please evaluate your genuine feelings and coping mechanisms when facing group exclusion, marginalization, or peer alienation.";
                 
-                document.getElementById('lbl-q1').innerText = "1. 當在團體中被孤立、忽視或排擠時，我會感到強烈的心理痛苦與挫折感。";
-                document.getElementById('lbl-q2').innerText = "2. 我發現自己事後會反覆回想那些不愉快的人際互動或別人冷漠的眼神。";
-                document.getElementById('lbl-q3').innerText = "3. 遭受同儕拒絕後，我很容易陷入自我懷疑，覺得自己是不是哪裡做錯了。";
-                document.getElementById('lbl-q4').innerText = "4. 為了避免再次受傷，我傾向在團體中保持沉默、減少主動社交。";
-                document.getElementById('lbl-q5').innerText = "5. 我會試著將這次的人際挫折化為看清交友狀況、提升社交智慧的成長契機。";
-                document.getElementById('lbl-q6').innerText = "6. 雖然經歷過社交排擠的低潮，但它確實讓我學會如何建立更健康的友誼邊界。";
+                document.getElementById('lbl-q1').innerText = "1. When isolated, ignored, or excluded in groups, I experienced intense psychological pain and frustration.";
+                document.getElementById('lbl-q2').innerText = "2. I found myself repeatedly dwelling on unpleasant social interactions or cold glances afterwards.";
+                document.getElementById('lbl-q3').innerText = "3. After peer rejection, I easily fell into self-doubt, wondering if I did something wrong.";
+                document.getElementById('lbl-q4').innerText = "4. To avoid further injury, I tended to stay silent in groups and reduce active socialization.";
+                document.getElementById('lbl-q5').innerText = "5. I try to transform this interpersonal setback into an opportunity to clarify friendships and boost social wisdom.";
+                document.getElementById('lbl-q6').innerText = "6. Although experiencing peer exclusion was tough, it helped me build healthier friendship boundaries.";
             }
             
             document.getElementById('step-1').classList.add('hidden');
@@ -424,7 +461,7 @@
             trialsData.push({
                 trial: currentTrial,
                 word: wordText,
-                type: isEmotional ? (userData.hasBreakup ? '失戀高感詞' : '社交受挫詞') : '中性對照詞',
+                type: isEmotional ? (userData.hasBreakup ? 'Breakup High-Impact' : 'Social Rejection High-Impact') : 'Neutral Control',
                 correct: isCorrect,
                 rt: reactionTime
             });
@@ -440,20 +477,18 @@
             if (key === 'b') handleStroopAnswer('blue');
         });
 
-        // 設定分題號引導式反思的題目內容
         function setupWizardQuestions() {
             if (userData.hasBreakup) {
-                document.getElementById('wiz-label-1').innerText = "第一題：回想當時的分手，您從這段關係中學到了關於愛、信任或自我邊界的什麼重要課題？";
-                document.getElementById('wiz-label-2').innerText = "第二題：這次的心碎經驗，讓您在未來挑選對象或看待親密關係時，更清楚自己真正需要的是什麼？";
-                document.getElementById('wiz-label-3').innerText = "第三題：試著從長遠來看，您覺得這次的經歷如何實質提升或強韌了您的內在成熟度與未來眼光？";
+                document.getElementById('wiz-label-1').innerText = "Question 1: Reflecting on that breakup, what important lessons about love, trust, or personal boundaries did you learn from this relationship?";
+                document.getElementById('wiz-label-2').innerText = "Question 2: How has this heartbreak experience made you clearer about what you truly need when choosing a partner or viewing intimacy in the future?";
+                document.getElementById('wiz-label-3').innerText = "Question 3: Looking back in the long run, how has this experience substantially enhanced or strengthened your inner maturity and future outlook?";
             } else {
-                document.getElementById('wiz-label-1').innerText = "第一題：回想當時的社交排擠或低潮，您從這次的人際挫折中看清了什麼樣的交友盲點或學到了什麼？";
-                document.getElementById('wiz-label-2').innerText = "第二題：這次的挫折經驗，讓您在未來如何建立更健康、更舒服的友誼邊界與社交距離？";
-                document.getElementById('wiz-label-3').innerText = "第三題：試著從長遠來看，您覺得這次的經歷如何實質提升或強韌了您的心理韌性與獨立性？";
+                document.getElementById('wiz-label-1').innerText = "Question 1: Reflecting on that social exclusion or low period, what friendship blind spots did you recognize or what did you learn?";
+                document.getElementById('wiz-label-2').innerText = "Question 2: How has this setback helped you establish healthier, more comfortable friendship boundaries and social distances in the future?";
+                document.getElementById('wiz-label-3').innerText = "Question 3: Looking back in the long run, how has this experience substantially strengthened your psychological resilience and independence?";
             }
         }
 
-        // Wizard 分步驟控制與 15 字防呆驗證
         function nextWizardStep(stepNum) {
             let ans = document.getElementById(`ans-q${stepNum}`).value.trim();
             let warn = document.getElementById(`warn-q${stepNum}`);
@@ -465,12 +500,10 @@
             }
             warn.classList.add('hidden');
 
-            // 儲存答案
             if (stepNum === 1) userData.ans1 = ans;
             if (stepNum === 2) userData.ans2 = ans;
             if (stepNum === 3) userData.ans3 = ans;
 
-            // 切換畫面
             document.getElementById(`wiz-q${stepNum}-box`).classList.add('hidden');
             let nextNum = stepNum + 1;
             document.getElementById(`wiz-q${nextNum}-box`).classList.remove('hidden');
@@ -479,20 +512,28 @@
 
         function finishWizard() {
             let selectedFeel = document.querySelector('input[name="feelBetter"]:checked');
-            userData.feelBetter = selectedFeel ? selectedFeel.value : "很有幫助，感覺輕鬆開闊許多";
+            userData.feelBetter = selectedFeel ? selectedFeel.value : "Very helpful, feel much lighter and open";
             userData.timestamp = new Date().toISOString();
 
             document.getElementById('step-4').classList.add('hidden');
             document.getElementById('step-5').classList.remove('hidden');
             document.getElementById('step-indicator').innerText = "STEP 05 / 05";
             
-            document.getElementById('report-user-meta').innerText = `受試者：${userData.nickname} (${userData.age}歲)`;
-            document.getElementById('badge-group').innerText = `${userData.hasBreakup ? '失戀實驗組' : '社交排斥組'} / 深度反思梳理`;
+            document.getElementById('report-user-meta').innerText = `Participant: ${userData.nickname} (${userData.age} yrs)`;
+            document.getElementById('badge-group').innerText = `${userData.hasBreakup ? 'Breakup Group' : 'Social Rejection Group'} / Scaffolded Reflection`;
             
             evaluateBrightSideProfile();
 
-            let avgRt = Math.round(trialsData.reduce((acc, cur) => acc + cur.rt, 0) / trialsData.length);
-            document.getElementById('res-stroop').innerText = `${avgRt} ms`;
+            let neutralTrials = trialsData.filter(t => t.type.includes('Neutral'));
+            let emotionalTrials = trialsData.filter(t => t.type.includes('High-Impact'));
+
+            let neutralAvg = neutralTrials.length > 0 ? Math.round(neutralTrials.reduce((a, b) => a + b.rt, 0) / neutralTrials.length) : 0;
+            let emotionalAvg = emotionalTrials.length > 0 ? Math.round(emotionalTrials.reduce((a, b) => a + b.rt, 0) / emotionalTrials.length) : 0;
+            let diffRt = emotionalAvg - neutralAvg;
+
+            document.getElementById('res-neutral-rt').innerText = `${neutralAvg} ms`;
+            document.getElementById('res-emotional-rt').innerText = `${emotionalAvg} ms`;
+            document.getElementById('res-diff-rt').innerText = (diffRt >= 0 ? `+${diffRt}` : diffRt) + ` ms`;
 
             let logTableBody = document.getElementById('stroop-log-table');
             logTableBody.innerHTML = '';
@@ -502,7 +543,7 @@
                     <td class="p-3 font-orbitron">#0${row.trial}</td>
                     <td class="p-3 font-bold">${row.word}</td>
                     <td class="p-3 text-gray-400">${row.type}</td>
-                    <td class="p-3">${row.correct ? '<span class="text-emerald-400">正確</span>' : '<span class="text-red-400">錯誤</span>'}</td>
+                    <td class="p-3">${row.correct ? '<span class="text-emerald-400">Correct</span>' : '<span class="text-red-400">Incorrect</span>'}</td>
                     <td class="p-3 text-right font-orbitron text-blue-400">${row.rt} ms</td>
                 `;
                 logTableBody.appendChild(tr);
@@ -512,11 +553,11 @@
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['平均反應時間 (RT)', '反思有效性指標'],
+                    labels: ['Neutral Words RT', 'Emotional Words RT'],
                     datasets: [{
-                        label: '數據指標',
-                        data: [avgRt, 85],
-                        backgroundColor: ['#3b82f6', '#10b981'],
+                        label: 'Reaction Time (ms)',
+                        data: [neutralAvg, emotionalAvg],
+                        backgroundColor: ['#3b82f6', '#f59e0b'],
                         borderRadius: 8
                     }]
                 },
@@ -530,7 +571,8 @@
                 }
             });
 
-            sendDataToGoogleSheets(avgRt);
+            let overallAvgRt = Math.round(trialsData.reduce((acc, cur) => acc + cur.rt, 0) / trialsData.length);
+            sendDataToGoogleSheets(overallAvgRt);
         }
 
         function evaluateBrightSideProfile() {
@@ -543,29 +585,29 @@
             if (userData.hasBreakup) {
                 if (growthScore >= 5.0) {
                     if (painScore >= 4.0) {
-                        profileName = "創傷後成長 (Post-Traumatic Growth, PTG)";
-                        profileDesc = "完美體現 The Bright Side of Bad！重大情感打擊往往伴隨深刻痛苦，但你具備極高的心智韌性，不僅能挺過低谷，更能透過分步驟反思將經歷轉化為自我超越的強大養分。";
+                        profileName = "Post-Traumatic Growth (PTG)";
+                        profileDesc = "Embodying The Bright Side of Bad! Major emotional blows bring deep pain, but you possess exceptional resilience, turning adversity into self-transcendence through structured reflection.";
                     } else {
-                        profileName = "益處發現型 (Benefit Finding)";
-                        profileDesc = "你展現了高度的情緒調節能力與正向心態，能迅速跳脫負面漩渦，精準捕捉失落事件中的人生啟發與智慧。";
+                        profileName = "Benefit Finding";
+                        profileDesc = "You demonstrate high emotional regulation and a positive mindset, rapidly moving past emotional swirls to capture profound life insights from loss.";
                     }
                 } else if (growthScore >= 3.5) {
-                    profileName = "韌性調節型 (Resilient Reappraiser)";
-                    profileDesc = "你正在穩健地調試心情，試圖在痛苦與自我成長之間尋找平衡點，透過結構化梳理逐步重建內在秩序。";
+                    profileName = "Resilient Reappraiser";
+                    profileDesc = "You are stably adjusting your mood, balancing pain and personal growth to rebuild inner order through guided scaffolding.";
                 } else {
-                    profileName = "心碎陷溺型 (Cognitive Entrapment)";
-                    profileDesc = "大腦的認知頻寬目前被強烈的失落感高度佔用。這在情感失落期非常正常，透過剛才的分題反思，正引導大腦逐步找回前進的曙光。";
+                    profileName = "Cognitive Entrapment";
+                    profileDesc = "Your cognitive bandwidth is currently occupied by deep feelings of loss. Through our guided questions, you are gradually finding the path forward.";
                 }
             } else {
                 if (growthScore >= 5.0) {
-                    profileName = "社交智慧昇華 (Social Cognitive Elevation)";
-                    profileDesc = "面對同儕排擠或人際低潮時，你展現了出色的心理韌性，能將社交挫折化為優化人際邊界與提升社交智慧的寶貴契機。";
+                    profileName = "Social Cognitive Elevation";
+                    profileDesc = "Facing peer exclusion or low periods, you display remarkable resilience, converting social setbacks into valuable opportunities for optimizing social wisdom.";
                 } else if (growthScore >= 3.5) {
-                    profileName = "人際適應調和型 (Interpersonal Adaptive)";
-                    profileDesc = "你對團體波動保持平衡心態，正逐步建立健康舒適的人際互動與心理調適機制。";
+                    profileName = "Interpersonal Adaptive";
+                    profileDesc = "You maintain a balanced outlook on group dynamics, progressively building comfortable social interactions and adaptive mechanisms.";
                 } else {
-                    profileName = "高敏感社交受挫型 (High-Sensitivity Rejection Response)";
-                    profileDesc = "你對人際互動高度敏感，遭遇團體冷落或疏離時容易反覆咀嚼，但透過分題反思已有效啟動內在心理調節。";
+                    profileName = "High-Sensitivity Rejection Response";
+                    profileDesc = "You are highly sensitive to interpersonal feedback, but guided reflection has successfully activated your internal emotional regulation.";
                 }
             }
 
@@ -583,7 +625,7 @@
                     sessionId: userData.sessionId,
                     nickname: userData.nickname,
                     ageGroup: userData.age,
-                    expType: userData.hasBreakup ? '失戀實驗組' : '社交排斥組',
+                    expType: userData.hasBreakup ? 'Breakup Group' : 'Social Rejection Group',
                     scaleQ1: userData.scaleQ1,
                     scaleQ2: userData.scaleQ2,
                     scaleQ3: userData.scaleQ3,
@@ -608,7 +650,7 @@
             .then(res => res.json())
             .then(data => {
                 if(data.result === 'success') {
-                    document.getElementById('global-sync-status').innerText = `已同步 (樣本數: ${data.totalParticipants})`;
+                    document.getElementById('global-sync-status').innerText = `Synced (N: ${data.totalParticipants})`;
                     document.getElementById('global-sync-status').classList.remove('animate-pulse', 'text-indigo-400');
                     document.getElementById('global-sync-status').classList.add('text-emerald-400');
                     
@@ -618,7 +660,7 @@
             })
             .catch(err => {
                 console.error("Sync error:", err);
-                document.getElementById('global-sync-status').innerText = '本地預估數據';
+                document.getElementById('global-sync-status').innerText = 'Local Estimate';
             });
         }
     </script>
