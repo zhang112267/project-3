@@ -663,6 +663,15 @@
                 document.getElementById('global-sync-status').innerText = 'Local Estimate';
             });
         }
+        // 當受試者進入實驗後（從 Step 2 開始），若試圖關閉或重新整理網頁，跳出警告
+window.addEventListener('beforeunload', function (e) {
+    // 檢查目前是否已經到最後的結果頁 (Step 5)，如果已經完成了就不需要警告
+    let step5 = document.getElementById('step-5');
+    if (step5 && step5.classList.contains('hidden')) {
+        e.preventDefault();
+        e.returnValue = ''; // 觸發瀏覽器預設的離開確認對話框
+    }
+});
     </script>
 </body>
 </html>
